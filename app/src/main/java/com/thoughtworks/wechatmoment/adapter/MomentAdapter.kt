@@ -1,15 +1,18 @@
 package com.thoughtworks.wechatmoment.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.thoughtworks.wechatmoment.R
 import com.thoughtworks.wechatmoment.model.MomentItem
 import com.thoughtworks.wechatmoment.model.User
+import com.thoughtworks.wechatmoment.view.MultiImageView
 import kotlinx.android.synthetic.main.moment_header_view.view.*
 import kotlinx.android.synthetic.main.moment_item.view.*
 
@@ -17,7 +20,7 @@ import kotlinx.android.synthetic.main.moment_item.view.*
 class MomentAdapter(
     private val user: User,
     private val moments: List<MomentItem>,
-    private val context: Context
+    private val fragmentActivity: FragmentActivity
 ) : RecyclerView.Adapter<ViewHolder?>() {
 
     private val mHeaderCount = 1
@@ -34,7 +37,7 @@ class MomentAdapter(
 
     class ContentViewHolder(itemView: View) : ViewHolder(itemView)
 
-    class HeaderViewHolder(itemView: View?) : ViewHolder(itemView!!)
+    class HeaderViewHolder(itemView: View) : ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (viewType == ITEM_TYPE_HEADER) {
@@ -59,11 +62,11 @@ class MomentAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (holder is HeaderViewHolder) {
             holder.itemView.textView_username.text = user.nick
-            Glide.with(context)
+            Glide.with(fragmentActivity)
                 .load(user.profileImage)
                 .into(holder.itemView.imageView_header)
 
-            Glide.with(context)
+            Glide.with(fragmentActivity)
                 .load(user.avatar)
                 .into(holder.itemView.imageView_avatar)
         } else {
@@ -71,8 +74,29 @@ class MomentAdapter(
 
             holder.itemView.username_text_view.text = currentItem.sender.nick
             holder.itemView.content_text_view.text = currentItem.content
-            Glide.with(context).load(currentItem.sender.avatar)
+            Glide.with(fragmentActivity).load(currentItem.sender.avatar)
                 .into(holder.itemView.moment_imageView_avatar)
+
+            if (currentItem.images != null) {
+                val urlList: MutableList<String> = mutableListOf()
+                currentItem.images.forEach {
+                    urlList.add(it.url)
+                }
+                holder.itemView.multi_image.setList(urlList)
+                holder.itemView.multi_image.setOnItemClickListener(object :
+                    MultiImageView.OnItemClickListener {
+                    override fun onItemClick(view: View?, position: Int) {
+                        val num = position+1
+                        Toast.makeText(fragmentActivity, "点击第$num"+"个", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+
+            if (currentItem.comments != null) {
+                holder.itemView.comments_recyclerView.adapter = CommentAdapter(currentItem.comments)
+                holder.itemView.comments_recyclerView.layoutManager = LinearLayoutManager(fragmentActivity)
+                holder.itemView.comments_recyclerView.setHasFixedSize(true)
+            }
         }
     }
 

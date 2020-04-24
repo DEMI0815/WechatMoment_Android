@@ -18,10 +18,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
+            android:contentDescription="@string/moment_sender_avatar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/image_shape"
-            android:contentDescription="@string/moment_sender_avatar" />
+            app:srcCompat="@drawable/image_shape" />
 
         <TextView
             android:id="@+id/username_text_view"
@@ -44,26 +44,53 @@
             android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/username_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/username_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/username_text_view"
+            tools:visibility="visible" />
+
+
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/moment_image_recyclerView"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="8dp"-->
+        <!--            android:layout_marginEnd="16dp"-->
+        <!--            android:layout_marginRight="16dp"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/content_text_view"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/content_text_view"-->
+        <!--            tools:listitem="@layout/moment_image_item" />-->
+
+        <com.thoughtworks.wechatmoment.view.MultiImageView
+            android:id="@+id/multi_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/content_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/content_text_view" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/comments_recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/multi_image"
+            app:layout_constraintStart_toStartOf="@+id/multi_image"
+            app:layout_constraintTop_toBottomOf="@+id/multi_image"
+            android:focusableInTouchMode="false"
+            tools:listitem="@layout/moment_comment_item" />
 
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginTop="4dp"
             android:background="#e5e5e5"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/content_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/content_text_view"
-            tools:listitem="@layout/moment_image_item" />
+            app:layout_constraintTop_toBottomOf="@+id/comments_recyclerView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
