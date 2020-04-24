@@ -15,7 +15,7 @@ class MultiImageView : LinearLayout {
 
     private var oneMaxWandH = 0
     private var moreWandH = 0
-    private val imagePadding = 2
+    private val imagePadding = 15
     private var countOfPerRow = 3
     private var onePicPara: LayoutParams? = null
     private var morePara: LayoutParams? = null
