@@ -1,10 +1,12 @@
 package com.thoughtworks.wechatmoment
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.thoughtworks.wechatmoment.model.User
+import com.thoughtworks.wechatmoment.utils.FileUtils
+import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
 import java.io.IOException
 
@@ -14,6 +16,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        storageUserFile()
+        initHeaderView()
+    }
+
+    private fun initHeaderView() {
+        val user = getUser()
+        Glide.with(this)
+            .load(user.profileImage)
+            .into(imageView_header)
+
+        Glide.with(this)
+            .load(user.avatar)
+            .into(imageView_avatar);
+
+        textView_username.text = user.nick
+    }
+
+    private fun getUser(): User {
+        val userString = FileUtils().readerFile("userFile", this)
+        return Gson().fromJson(userString, User::class.java)
+    }
+
+    private fun storageUserFile() {
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(LogInterceptor())
             .build()
@@ -21,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         // 2、创建Request对象
         val request = Request
             .Builder()
-            .url("http://thoughtworks-ios.herokuapp.com/user/jsmith")
+            .url("https://thoughtworks-mobile-2018.herokuapp.com/user/jsmith")
             .build()
 
         //3、通过okHttpClient的newCall方法获得一个Call对象
@@ -35,20 +60,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-
-                //存json数据到file
-                //TODO
-
                 val jsonString = response.body?.string()
                 val fileName = "userFile"
-                openFileOutput(fileName, Context.MODE_PRIVATE).use {
-                    if (jsonString != null) {
-                        it.write(jsonString.toByteArray())
-                    }
-                }
-
-                val result = Gson().fromJson(jsonString, User::class.java)
-                println(result)
+                FileUtils().storageFile(fileName, jsonString, this@MainActivity)
             }
         })
     }
