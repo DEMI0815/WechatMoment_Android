@@ -3,4 +3,5 @@
     <string name="header_image">Header Image</string>
     <string name="user_avatar">user avatar</string>
     <string name="moment_image">moment image</string>
+    <string name="moment_sender_avatar">moment sender avatar</string>
 </resources>

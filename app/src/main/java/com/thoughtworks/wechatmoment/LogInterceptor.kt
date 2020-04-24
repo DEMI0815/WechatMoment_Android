@@ -1,6 +1,5 @@
 package com.thoughtworks.wechatmoment
 
-import android.content.ContentValues.TAG
 import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Response
