@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var displayCount = 5
+    private var displayCount = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
             "https://thoughtworks-mobile-2018.herokuapp.com/user/jsmith/tweets",
             "momentsFile", this
         )
-
 //        InternetUtils().storageFile(
 //            "http://thoughtworks-ios.herokuapp.com/user/jsmith",
 //            "userFile", this
@@ -38,31 +37,34 @@ class MainActivity : AppCompatActivity() {
 //            "momentsFile", this
 //        )
 
-        displayMoments(5)
+        val mAdapter = MomentAdapter(getUser(), this)
+        initView(mAdapter)
 
         refresh_layout.setOnRefreshListener {
-            it.finishRefresh(2000)
+            it.finishRefresh(1000)
             displayCount = 5
-            displayMoments(displayCount)
-            println(displayCount)
+            mAdapter.setList(getMoments().subList(0, displayCount))
+            mAdapter.notifyDataSetChanged()
         }
 
         refresh_layout.setOnLoadMoreListener {
-            it.finishLoadMore(2000)
+            it.finishLoadMore(1000)
             displayCount += 5
             if (displayCount > getMoments().size) {
                 it.finishLoadMoreWithNoMoreData()
             } else {
-                displayMoments(displayCount)
+                mAdapter.setList(getMoments().subList(0, displayCount))
+                mAdapter.notifyDataSetChanged()
             }
         }
     }
 
-    private fun displayMoments(disPlayCount: Int) {
-        moment_recycler_view.adapter =
-            MomentAdapter(getUser(), getMoments().subList(0, disPlayCount), this)
+    private fun initView(mAdapter: MomentAdapter) {
+        moment_recycler_view.adapter = mAdapter
         moment_recycler_view.layoutManager = LinearLayoutManager(this)
         moment_recycler_view.setHasFixedSize(true)
+        mAdapter.setList(getMoments().subList(0, 5))
+        mAdapter.notifyDataSetChanged()
     }
 
     private fun getUser(): User {

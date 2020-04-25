@@ -19,15 +19,18 @@ import kotlinx.android.synthetic.main.moment_item.view.*
 
 class MomentAdapter(
     private val user: User,
-    private val moments: List<MomentItem>,
     private val fragmentActivity: FragmentActivity
 ) : RecyclerView.Adapter<ViewHolder?>() {
 
+    private var moments: List<MomentItem> = ArrayList()
+
+    fun setList(moments: List<MomentItem>) {
+        this.moments = moments
+    }
+
     private val mHeaderCount = 1
-    private val contentItemCount = moments.size
 
     override fun getItemViewType(position: Int): Int {
-        contentItemCount
         return if (mHeaderCount != 0 && position < mHeaderCount) {
             ITEM_TYPE_HEADER
         } else {
@@ -89,22 +92,23 @@ class MomentAdapter(
                 holder.itemView.multi_image.setOnItemClickListener(object :
                     MultiImageView.OnItemClickListener {
                     override fun onItemClick(view: View?, position: Int) {
-                        val num = position+1
-                        Toast.makeText(fragmentActivity, "点击第$num"+"个", Toast.LENGTH_SHORT).show()
+                        val num = position + 1
+                        Toast.makeText(fragmentActivity, "点击第$num" + "个", Toast.LENGTH_SHORT).show()
                     }
                 })
             }
 
             if (currentItem.comments != null) {
                 holder.itemView.comments_recyclerView.adapter = CommentAdapter(currentItem.comments)
-                holder.itemView.comments_recyclerView.layoutManager = LinearLayoutManager(fragmentActivity)
+                holder.itemView.comments_recyclerView.layoutManager =
+                    LinearLayoutManager(fragmentActivity)
                 holder.itemView.comments_recyclerView.setHasFixedSize(true)
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return mHeaderCount + contentItemCount
+        return mHeaderCount + moments.size
     }
 
     companion object {
