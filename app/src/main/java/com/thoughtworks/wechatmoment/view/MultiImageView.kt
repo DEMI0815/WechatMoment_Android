@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.ImageView.ScaleType
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
+import com.thoughtworks.wechatmoment.R
 
 class MultiImageView : LinearLayout {
 
@@ -112,7 +113,7 @@ class MultiImageView : LinearLayout {
                 mOnItemClickListener!!.onItemClick(it, position)
             }
         }
-        Glide.with(context).load(url).into(imageView)
+        Glide.with(context).load(url).placeholder(R.drawable.ic_texture).into(imageView)
         return imageView
     }
 

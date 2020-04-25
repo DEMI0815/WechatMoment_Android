@@ -10,7 +10,10 @@ import com.thoughtworks.wechatmoment.R
 import com.thoughtworks.wechatmoment.model.Image
 import kotlinx.android.synthetic.main.moment_image_item.view.*
 
-class MomentImageAdapter(private val images: List<Image>, private val fragmentActivity: FragmentActivity) :
+class MomentImageAdapter(
+    private val images: List<Image>,
+    private val fragmentActivity: FragmentActivity
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class MomentImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -29,6 +32,7 @@ class MomentImageAdapter(private val images: List<Image>, private val fragmentAc
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Glide.with(fragmentActivity).load(images[position].url).into(holder.itemView.moment_image_view)
+        Glide.with(fragmentActivity).load(images[position].url).placeholder(R.drawable.ic_texture)
+            .into(holder.itemView.moment_image_view)
     }
 }

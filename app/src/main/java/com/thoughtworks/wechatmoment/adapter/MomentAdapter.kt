@@ -64,10 +64,12 @@ class MomentAdapter(
             holder.itemView.textView_username.text = user.nick
             Glide.with(fragmentActivity)
                 .load(user.profileImage)
+                .placeholder(R.drawable.ic_texture)
                 .into(holder.itemView.imageView_header)
 
             Glide.with(fragmentActivity)
                 .load(user.avatar)
+                .placeholder(R.drawable.ic_texture)
                 .into(holder.itemView.imageView_avatar)
         } else {
             val currentItem = moments[position - mHeaderCount]
@@ -75,6 +77,7 @@ class MomentAdapter(
             holder.itemView.username_text_view.text = currentItem.sender.nick
             holder.itemView.content_text_view.text = currentItem.content
             Glide.with(fragmentActivity).load(currentItem.sender.avatar)
+                .placeholder(R.drawable.ic_texture)
                 .into(holder.itemView.moment_imageView_avatar)
 
             if (currentItem.images != null) {
