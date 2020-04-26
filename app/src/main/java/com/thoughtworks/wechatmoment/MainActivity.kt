@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.thoughtworks.wechatmoment.Constant.MOMENTS_URL
+import com.thoughtworks.wechatmoment.Constant.USER_URL
 import com.thoughtworks.wechatmoment.adapter.MomentAdapter
 import com.thoughtworks.wechatmoment.model.MomentItem
 import com.thoughtworks.wechatmoment.model.Moments
@@ -20,22 +22,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        InternetUtils().storageFile(
-            "https://thoughtworks-mobile-2018.herokuapp.com/user/jsmith",
-            "userFile", this
-        )
-        InternetUtils().storageFile(
-            "https://thoughtworks-mobile-2018.herokuapp.com/user/jsmith/tweets",
-            "momentsFile", this
-        )
-//        InternetUtils().storageFile(
-//            "http://thoughtworks-ios.herokuapp.com/user/jsmith",
-//            "userFile", this
-//        )
-//        InternetUtils().storageFile(
-//            "http://thoughtworks-ios.herokuapp.com/user/jsmith/tweets",
-//            "momentsFile", this
-//        )
+        InternetUtils().storageFile(USER_URL, "userFile", this)
+        InternetUtils().storageFile(MOMENTS_URL, "momentsFile", this)
 
         val mAdapter = MomentAdapter(getUser(), this)
         initView(mAdapter)
