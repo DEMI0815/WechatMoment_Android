@@ -51,7 +51,8 @@ class MainActivity : AppCompatActivity() {
             it.finishLoadMore(1000)
             displayCount += 5
             if (displayCount > getMoments().size) {
- //               mAdapter.setList(getMoments())
+                mAdapter.setList(getMoments())
+                mAdapter.notifyDataSetChanged()
                 it.finishLoadMoreWithNoMoreData()
             } else {
                 mAdapter.setList(getMoments().subList(0, displayCount))

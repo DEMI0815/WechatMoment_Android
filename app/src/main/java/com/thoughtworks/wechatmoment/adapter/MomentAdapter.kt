@@ -97,16 +97,18 @@ class MomentAdapter(
                     }
                 })
             } else {
-                return
+                holder.itemView.multi_image.removeAllViews()
             }
 
+            val commentAdapter = CommentAdapter()
             if (currentItem.comments != null && currentItem.comments.isNotEmpty()) {
-                holder.itemView.comments_recyclerView.adapter = CommentAdapter(currentItem.comments)
-                holder.itemView.comments_recyclerView.layoutManager =
-                    LinearLayoutManager(fragmentActivity)
-                holder.itemView.comments_recyclerView.setHasFixedSize(true)
+                holder.itemView.comments_recyclerView.visibility = View.VISIBLE
+                holder.itemView.comments_recyclerView.adapter = commentAdapter
+                holder.itemView.comments_recyclerView.layoutManager = LinearLayoutManager(fragmentActivity)
+                commentAdapter.setList(currentItem.comments)
+                commentAdapter.notifyDataSetChanged()
             } else {
-                return
+                holder.itemView.comments_recyclerView.visibility = View.GONE
             }
         }
     }

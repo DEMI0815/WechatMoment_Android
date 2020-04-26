@@ -8,9 +8,15 @@ import com.thoughtworks.wechatmoment.R
 import com.thoughtworks.wechatmoment.model.Comment
 import kotlinx.android.synthetic.main.moment_comment_item.view.*
 
-class CommentAdapter(private val comments: List<Comment>) :
+class CommentAdapter :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class MomentImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    private var comments: List<Comment> =  ArrayList()
+
+    fun setList(list: List<Comment>) {
+        comments = list
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return MomentImageViewHolder(
